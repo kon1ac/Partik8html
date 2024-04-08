@@ -1,0 +1,64 @@
+<DOCTYPE html>
+<html>
+<head>
+    <title>Калькулейтор</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="result" readonly class="result">
+        <div class="buttons">
+            <button onclick="clearResult()" class="reset">Сбросить</button>
+            <input type="button" value="1" onclick="appendToResult(1)" class="button">
+            <input type="button" value="2" onclick="appendToResult(2)" class="button">
+            <input type="button" value="3" onclick="appendToResult(3)" class="button">
+            <input type="button" value="4" onclick="appendToResult(4)" class="button">
+            <input type="button" value="5" onclick="appendToResult(5)" class="button">
+            <input type="button" value="6" onclick="appendToResult(6)" class="button">
+            <input type="button" value="7" onclick="appendToResult(7)" class="button">
+            <input type="button" value="8" onclick="appendToResult(8)" class="button">
+            <input type="button" value="9" onclick="appendToResult(9)" class="button">
+            <input type="button" value="0" onclick="appendToResult(0)" class="button">
+            <input type="button" value="+" onclick="appendToResult('+')" class="button">
+            <input type="button" value="-" onclick="appendToResult('-')" class="button">
+            <input type="button" value="*" onclick="appendToResult('*')" class="button">
+            <input type="button" value="/" onclick="appendToResult('/')" class="button">
+            <input type="button" value="." onclick="appendToResult('.')" class="button">
+            <input type="button" value="=" onclick="calculateResult()" class="button">
+        </div>
+    </div>
+
+    <script>
+function appendToResult(value) {
+    document.getElementById('result').value += value;
+}
+
+function calculateResult() {
+    var result = document.getElementById('result').value;
+    if (result.includes("(") || result.includes(")")) {
+        result = eval("calculateWithParentheses('" + result + "')");
+    } else {
+        result = eval(result);
+    }
+    document.getElementById('result').value = result;
+}
+
+function calculateWithParentheses(expr) {
+    while (expr.includes("(")) {
+        var startIndex = expr.lastIndexOf("(");
+        var endIndex = expr.indexOf(")", startIndex);
+
+        var subExpr = expr.substring(startIndex + 1, endIndex);
+        var subResult = eval(subExpr);
+
+        expr = expr.substring(0, startIndex) + subResult + expr.substring(endIndex + 1);
+    }
+
+    return eval(expr);
+}
+function clearResult() {
+    document.getElementById('result').value = "";
+}
+    </script>
+</body>
+</html>
